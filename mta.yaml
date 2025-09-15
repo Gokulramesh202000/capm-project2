@@ -1,0 +1,48 @@
+ID: project2
+_schema-version: "3.1"
+version: 1.0.0
+description: "CAP Project with XSUAA"
+
+modules:
+  - name: project2-srv
+    type: nodejs
+    path: srv
+    requires:
+      - name: project2-db
+      - name: project2-xsuaa-service
+
+  - name: project2-db-deployer
+    type: hdb
+    path: db
+    requires:
+      - name: project2-db
+
+  - name: project2-approuter   
+    type: approuter.nodejs
+    path: approuter
+    requires:
+      - name: project2-xsuaa-service
+      - name: srv-api
+    parameters:
+      disk-quota: 256M
+      memory: 256M
+
+resources:
+  - name: project2-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana
+      service-plan: hdi-shared
+
+  - name: project2-xsuaa-service
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+
+  - name: srv-api              
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite

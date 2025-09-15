@@ -1,0 +1,36 @@
+{
+  "xsappname": "project2-app",   
+  "tenant-mode": "dedicated",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.User",
+      "description": "Default user scope"
+    },
+    {
+      "name": "$XSAPPNAME.Admin",
+      "description": "Administrator access"
+    },
+    {
+      "name": "$XSAPPNAME.Buyer",
+      "description": "Buyer access"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "Admin",
+      "description": "Administrator role",
+      "scope-references": [
+        "$XSAPPNAME.User",
+        "$XSAPPNAME.Admin"
+      ]
+    },
+    {
+      "name": "Buyer",
+      "description": "Buyer role",
+      "scope-references": [
+        "$XSAPPNAME.User",
+        "$XSAPPNAME.Buyer"
+      ]
+    }
+  ]
+}
